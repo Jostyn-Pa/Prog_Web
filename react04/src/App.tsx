@@ -6,18 +6,18 @@ function App() {
 
   return (
     <>
-      <nav>
-        <Link to= "/home">Home</Link>
-        |
-        <Link to= "/contact/test1">Contact1</Link>
-        |
-        <Link to= "/contact2/test2">Contact2</Link>
-        <br/>
-      </nav>
-      <Routes>
-        <Route path="/home" element={<Home/>} />
-        <Route path="/contact/:name" element={<Contact/>} />
-      </Routes>
+        <nav>
+            <Link to="/home">Home</Link>
+            |
+            <Link to="/contact/test1">Contact</Link>
+            |
+            <Link to="contact2/test2">Contact2</Link>
+        </nav>
+        <Routes>
+            <Route path="/home" element={<Home/>}/>
+            <Route path="contact/:name" element={<Contact/>}/>
+            <Route path="contact2/:name" element={<Contact/>}/>
+        </Routes>
     </>
   )
 }
