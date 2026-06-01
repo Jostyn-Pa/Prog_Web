@@ -1,0 +1,85 @@
+// ==========================================
+// 1. EL ESTADO (La Memoria de React)
+// ==========================================
+const [variable, setVariable] = useState("");
+
+// ==========================================
+// 2. INPUT CONTROLADO (El Espía en tiempo real)
+// ==========================================
+// La función:
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVariable(e.target.value);
+}
+// El HTML:
+<input type="text" value={variable} onChange={handleChange} />
+
+// ==========================================
+// 3. ENVÍO DE FORMULARIO SIN RECARGAR
+// ==========================================
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Aquí haces lo que quieras (ej. navegar)
+}
+
+// ==========================================
+// 4. EL TAXISTA CON MALETA SECRETA (useNavigate)
+// ==========================================
+import { useNavigate } from "react-router-dom";
+// (Dentro del componente)
+const navigate = useNavigate();
+// (Para viajar)
+navigate("/ruta-destino", { state: { dato1: "hola", dato2: "mundo" } });
+
+// ==========================================
+// 5. RECIBIR LA MALETA SECRETA (useLocation)
+// ==========================================
+import { useLocation } from "react-router-dom";
+// (Dentro del componente)
+const location = useLocation();
+const datos = location.state as { dato1: string; dato2: string } | null;
+
+// ==========================================
+// 6. LEER PARÁMETRO DE LA URL (useParams)
+// Ej: misitio.com/perfil/:nombre
+// ==========================================
+import { useParams } from "react-router-dom";
+// (Dentro del componente)
+const { nombre } = useParams<{ nombre: string }>();
+
+// ==========================================
+// 7. RENDERIZADO CONDICIONAL (El Escudo &&)
+// Útil para: Dibujar algo SOLO SI la variable existe
+// ==========================================
+{variable && (
+    <p>Este texto solo aparece si 'variable' tiene datos.</p>
+)}
+
+// ==========================================
+// 8. RENDERIZADO CONDICIONAL (El Camino Doble ? :)
+// Útil para: Dibujar la Opción A o la Opción B
+// ==========================================
+{variable ? (
+    <p>¡Bienvenido, {variable}!</p>
+) : (
+    <p>Por favor, inicia sesión.</p>
+)}
+
+// ==========================================
+// 9. EL PARACAÍDAS DE LA URL (Fallback ||)
+// Útil para: Evitar errores si useParams llega vacío
+// ==========================================
+const { categoria } = useParams<{ categoria: string }>();
+// En el HTML:
+<h1> Estás en la categoría: { categoria || "General" } </h1>
+
+// ==========================================
+// 10. FORMULARIO NO CONTROLADO (El Recolector de golpe)
+// Regla: Aquí SÍ usas 'name' en los inputs, y NO usas 'value' ni 'onChange'
+// ==========================================
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    // Extraemos leyendo el 'name' del HTML
+    const correoExtraido = formData.get("correoUsuario") as string;
+}
