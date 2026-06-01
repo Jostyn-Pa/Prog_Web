@@ -1,0 +1,56 @@
+// ==========================================
+// 11. ESTILOS: BÁSICOS (Textos y Colores)
+// Útil para: Párrafos <p>, Títulos <h1>, <span>
+// ==========================================
+<p style={{
+    color: "blue",               // Color del texto
+    backgroundColor: "yellow",   // Color de fondo
+    fontSize: "18px",            // Tamaño de letra
+    fontWeight: "bold",          // Negrita (también puede ser "normal")
+    textAlign: "center"          // Alineación (center, left, right)
+}}>
+    Texto de prueba
+</p>
+
+// ==========================================
+// 12. ESTILOS: CAJAS Y ESPACIADOS (Layout)
+// Útil para: Contenedores <div>, Formularios <form>
+// ==========================================
+<div style={{
+    padding: "20px",             // Espacio interno (hacia adentro)
+    margin: "10px",              // Espacio externo (hacia afuera)
+    border: "2px solid black",   // Borde (Grosor, Estilo, Color)
+    borderRadius: "8px",         // Esquinas redondeadas
+    width: "100%",               // Ancho (puede ser en px o %)
+    maxWidth: "400px"            // Ancho máximo para que no se estire de más
+}}>
+    <form> ... </form>
+</div>
+
+// ==========================================
+// 13. ESTILOS: FLEXBOX (Para ordenar elementos lado a lado)
+// Útil para: Menús de navegación <nav>, Barras de herramientas
+// ==========================================
+<nav style={{
+    display: "flex",             // Activa el modo Flexbox
+    justifyContent: "space-between", // Separa los elementos a los extremos (o "center")
+    alignItems: "center",        // Centra los elementos verticalmente
+    gap: "15px"                  // Espacio exacto entre cada elemento
+}}>
+    <Link to="/">Inicio</Link>
+    <Link to="/perfil">Perfil</Link>
+</nav>
+
+// ==========================================
+// 14. ESTILOS: DINÁMICOS (La Magia de React)
+// Útil para: Cambiar colores dependiendo de una variable o estado
+// ==========================================
+const [esError, setEsError] = useState(true);
+
+// En el HTML, usamos el operador ternario dentro del estilo:
+<div style={{
+    color: esError ? "red" : "green",
+    border: esError ? "1px solid red" : "1px solid green"
+}}>
+    {esError ? "Ocurrió un problema" : "Todo está perfecto"}
+</div>
