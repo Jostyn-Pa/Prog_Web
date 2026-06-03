@@ -1,0 +1,29 @@
+{/* 1. EL CONTENEDOR PRINCIPAL */}
+<table>
+
+    {/* 2. ENCABEZADOS (La parte estática) */}
+    <thead>
+        <tr>
+            <th>Columna 1</th>
+            <th>Columna 2</th>
+            <th>Columna 3</th>
+        </tr>
+    </thead>
+
+    {/* 3. CUERPO DE LA TABLA (La parte dinámica) */}
+    <tbody>
+        {/* Recorremos el arreglo de datos con .map() */}
+        {miArreglo.map((item) => (
+
+            // La propiedad 'key' es OBLIGATORIA y debe ser un valor único (como un ID)
+            <tr key={item.id}>
+
+                {/* Inyectamos los datos del 'item' en cada celda */}
+                <td>{item.dato1}</td>
+                <td>{item.dato2}</td>
+                <td>{item.dato3}</td>
+            </tr>
+        ))}
+    </tbody>
+
+</table>

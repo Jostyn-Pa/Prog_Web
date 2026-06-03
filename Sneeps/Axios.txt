@@ -1,0 +1,109 @@
+...
+```¡Por supuesto! Tener estas plantillas a la mano es la mejor forma de programar rápido y sin errores.
+
+La gran ventaja que notarás con **Axios** es que la estructura es más limpia y nos ahorramos el paso de traducir los datos manualmente.
+
+### Los Pasos Fundamentales con Axios
+
+1. **La Memoria (`useState`):** Igual que con Fetch, necesitas un estado para guardar los datos y otro booleano para el aviso de carga (`loading`).
+2. **La Llamada (`axios.get`):** Usas el método correspondiente a lo que quieres hacer (pedir datos es `get`). Como usas TypeScript, la mejor práctica es indicarle a Axios el "molde" de datos que esperas recibir usando los picos `<TipoDato>`.
+3. **La Traducción Automática (`response.data`):** ¡Aquí está la magia! A diferencia de Fetch, Axios ya transformó el texto de internet a un objeto JavaScript. Tus datos listos para usarse siempre vendrán guardados dentro de la propiedad `response.data`.
+4. **La Red de Seguridad (`.catch`):** Es vital para atrapar errores si la página web externa falla o el usuario no tiene internet.
+5. **El Cierre (`.finally`):** Obligatorio para apagar la bandera de carga y quitar el "Cargando...".
+
+---
+
+### Tu Snippet: Consumo API con Axios
+
+```tsx
+import { useState, useEffect } from "react";
+// ¡No olvides importar axios después de instalarlo con npm!
+import axios from "axios";
+
+// 1. EL MOLDE (TypeScript): Define cómo lucirá un solo elemento de los datos
+interface DatoAPI {
+    id: number;
+    title: string;
+    body: string;
+}
+
+function ConsumoAxiosTemplate() {
+    // 2. LA MEMORIA: Dónde guardamos la lista de datos y el estado de carga
+    // Nota: Como esperamos varios datos, inicializamos con un arreglo vacío []
+    const [datos, setDatos] = useState<DatoAPI[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false); // Estado extra para errores visuales
+
+    // 3. LA FUNCIÓN PROFESIONAL: El proceso optimizado con Axios
+    const obtenerDatos = () => {
+        setLoading(true);
+        setError(false); // Limpiamos errores previos por si es un reintento
+
+        // Le avisamos a Axios que confíe en que recibirá un arreglo de nuestro molde <DatoAPI[]>
+        axios.get<DatoAPI[]>('https://jsonplaceholder.typicode.com/posts')
+            .then(response => {
+                // Axios ya convirtió el JSON, solo lo sacamos de la caja "data"
+                setDatos(response.data);
+            })
+            .catch(error => {
+                console.error("Hubo un error de conexión:", error);
+                setError(true); // Encendemos la alarma visual de error
+            })
+            .finally(() => {
+                setLoading(false); // Apagamos la carga pase lo que pase
+            });
+    }
+
+    // 4. EL DISPARADOR AUTOMÁTICO
+    // Va por los datos a internet automáticamente al abrir la página
+    useEffect(() => {
+        obtenerDatos();
+    }, []);
+
+    // 5. LA INTERFAZ VISUAL
+    return (
+        <div>
+            <h2>Datos desde Internet (Axios)</h2>
+
+            {/* Mensajes de estado para el usuario */}
+            {loading && <p style={{ color: "blue" }}>Cargando información, por favor espera...</p>}
+            {error && <p style={{ color: "red" }}>Ocurrió un error al cargar los datos.</p>}
+
+            {/* Si NO está cargando y NO hay error, mostramos la tabla/lista */}
+            {!loading && !error && datos.length > 0 && (
+                <table border={1}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* Recorremos el arreglo automáticamente con .map() */}
+                        {datos.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.title}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+}
+
+export default ConsumoAxiosTemplate;
+
+
+// 1. CREATE (Crear)
+axios.post("https://api.com/recurso", nuevoObjeto);
+
+// 2. READ (Leer)
+axios.get("https://api.com/recurso");
+
+// 3. UPDATE (Actualizar/Reemplazar)
+axios.put("https://api.com/recurso/1", objetoModificado);
+
+// 4. DELETE (Eliminar)
+axios.delete("https://api.com/recurso/1");

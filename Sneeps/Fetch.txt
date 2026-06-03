@@ -1,0 +1,61 @@
+import { useState, useEffect } from "react";
+
+// 1. EL MOLDE (TypeScript): Define la forma de los datos que esperas recibir de la API
+interface DatoAPI {
+    id: number;
+    title: string;
+}
+
+function ConsumoFetchTemplate() {
+    // 2. LA MEMORIA: Dónde guardamos los datos y el estado de carga
+    const [datos, setDatos] = useState<DatoAPI | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    // 3. LA FUNCIÓN RECOLECTORA: El proceso estructurado de ir a internet
+    const obtenerDatos = () => {
+        setLoading(true); // Encendemos el aviso visual de "Cargando..."
+
+        fetch('https://jsonplaceholder.typicode.com/posts/1', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json()) // Traducimos el texto crudo del servidor a JavaScript
+        .then(data => {
+            setDatos(data); // Guardamos los datos traducidos en la memoria
+        })
+        .catch(error => {
+            console.error("Hubo un error en la petición:", error); // Red de seguridad para errores
+        })
+        .finally(() => {
+            setLoading(false); // Apagamos la carga de la pantalla obligatoriamente
+        });
+    }
+
+    // 4. EL DISPARADOR AUTOMÁTICO
+    // Se ejecuta una sola vez al cargar la pantalla gracias a los corchetes vacíos []
+    useEffect(() => {
+        obtenerDatos();
+    }, []);
+
+    // 5. LA INTERFAZ VISUAL
+    return (
+        <div>
+            <h2>Datos desde Internet (Fetch)</h2>
+
+            {/* Escudo protector mientras carga la petición */}
+            {loading && <p>Cargando información, por favor espera...</p>}
+
+            {/* Renderizado condicional: Solo dibuja la caja si 'datos' ya no es null */}
+            {datos && (
+                <div style={{ border: '1px solid black', padding: '10px' }}>
+                    <p><strong>ID:</strong> {datos.id}</p>
+                    <p><strong>Título:</strong> {datos.title}</p>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default ConsumoFetchTemplate;

@@ -1,0 +1,52 @@
+// =========================================================
+// 🌟 CHEAT SHEET: DICCIONARIO DE ETIQUETAS Y HOOKS
+// Proyecto: React + TypeScript + Material-UI (MUI)
+// =========================================================
+
+// ---------------------------------------------------------
+// ⚛️ 1. CORE DE REACT Y HOOKS (Importados de "react")
+// ---------------------------------------------------------
+<> ... </>    // Fragmento: Envuelve múltiples elementos sin crear un <div> extra en el HTML.
+useState      // Memoria local. Si su valor cambia, la pantalla se redibuja (ej: const [estado, setEstado] = useState(0)).
+useEffect     // Automatismo. Ejecuta código al cargar la página o cuando cambia una variable (ej: llamadas a APIs).
+
+
+// ---------------------------------------------------------
+// 🗺️ 2. REACT ROUTER (Importados de "react-router-dom")
+// ---------------------------------------------------------
+<Routes>      // Contenedor maestro. Define la zona donde las páginas van a intercambiarse.
+<Route>       // Asocia una URL con un componente (ej: <Route path="/posts" element={<Posts/>} />).
+<Link>        // Navegación instantánea (SPA) sin recargar la página (reemplaza a la vieja <a> de HTML).
+useParams()   // Atrapa datos dinámicos desde la URL del navegador (ej: el "5" en /users/5).
+
+
+// ---------------------------------------------------------
+// 🎨 3. MATERIAL-UI: ESTRUCTURA ("@mui/material")
+// ---------------------------------------------------------
+<Container>   // Centra el contenido en la pantalla y le da márgenes laterales automáticos.
+<Box>         // El reemplazo moderno del <div>. Usa la propiedad sx={{}} para inyectar CSS rápido (ej: Flexbox).
+<Card>        // Dibuja un contenedor estilo "tarjeta" (cuadro con bordes y/o sombras).
+<CardContent> // El cuerpo interno de la tarjeta (ideal para agrupar textos y campos de texto).
+<CardActions> // La zona baja de la tarjeta, diseñada específicamente para espaciar y alinear botones.
+
+
+// ---------------------------------------------------------
+// 🖊️ 4. MATERIAL-UI: NAVEGACIÓN Y FORMULARIOS ("@mui/material")
+// ---------------------------------------------------------
+<AppBar>      // La gran barra de navegación superior (el "techo" de la app).
+<Toolbar>     // Caja invisible que alinea los elementos dentro del AppBar usando Flexbox.
+<Button>      // Botón profesional. Variantes: variant="contained" (relleno/principal), "outlined" (bordes/secundario).
+<TextField>   // Caja de texto para formularios (inputs).
+<TextField select> // El atributo 'select' transforma mágicamente la caja de texto en un menú desplegable.
+<MenuItem>    // Las opciones individuales que el usuario puede elegir dentro de un <TextField select>.
+
+
+// ---------------------------------------------------------
+// 📊 5. MATERIAL-UI: DATOS VISUALES Y TABLAS ("@mui/material")
+// ---------------------------------------------------------
+<Typography>  // Dibuja textos. Reemplaza a <h1>, <p>, <span>. Usa la propiedad variant="h4", "body1", etc.
+<Table>       // El contenedor principal para crear una cuadrícula de datos.
+<TableHead>   // El encabezado de la tabla (donde van los títulos de las columnas).
+<TableBody>   // El cuerpo de la tabla (la zona donde dibujas los datos con un .map()).
+<TableRow>    // Una fila horizontal en la tabla (equivale al <tr> de HTML).
+<TableCell>   // Una celda individual (equivale al <td> o <th> de HTML).

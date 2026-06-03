@@ -83,3 +83,62 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     // Extraemos leyendo el 'name' del HTML
     const correoExtraido = formData.get("correoUsuario") as string;
 }
+
+// 🌟 SNIPPET: Barra de Navegación Principal
+// Crea un menú superior estilizado que permite navegar sin recargar la página.
+
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+
+// Importa los iconos de MUI que vayas a usar
+import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
+
+function NavBar() {
+  return (
+    // AppBar: El "techo" azul de tu aplicación
+    <AppBar position="static">
+
+      {/* Toolbar: La caja invisible que alinea todo horizontalmente (Flexbox) */}
+      <Toolbar>
+
+        {/* Typography: El Título. sx={{flexGrow: 1}} empuja los botones hacia la derecha */}
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          Mi Aplicación
+        </Typography>
+
+        {/* Botones de navegación (Fusión MUI + React Router) */}
+        <Button
+          color="inherit"
+          component={Link}
+          to="/"
+          startIcon={<HomeIcon />}
+        >
+          Inicio
+        </Button>
+
+        <Button
+          color="inherit"
+          component={Link}
+          to="/posts"
+          startIcon={<ArticleIcon />}
+        >
+          Posts
+        </Button>
+
+      </Toolbar>
+    </AppBar>
+  );
+}
+
+export default NavBar;
+
+// Permite actualizar cualquier propiedad de un objeto dentro de un arreglo
+const handleInputChange = (index: number, field: keyof TuModelo, value: any) => {
+    const listaActualizada = [...tuArreglo]; // 1. Copiamos el arreglo
+    listaActualizada[index] = { ...listaActualizada[index], [field]: value }; // 2. Modificamos el campo exacto
+    setTuArreglo(listaActualizada); // 3. Guardamos
+};
+
+// Ejemplo de uso en el HTML:
+// <TextField onChange={(e) => handleInputChange(0, "title", e.target.value)} />
