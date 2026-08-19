@@ -1,0 +1,28 @@
+import axios from 'axios';
+const URL = "https://jsonplaceholder.typicode.com/posts";
+
+// 📖 READ (GET)
+const obtenerDatosAxios = () => {
+  axios.get(URL)
+    .then(res => console.log("Datos obtenidos:", res.data)) // Ya viene traducido en .data
+    .catch(error => console.error("Error:", error));
+};
+
+// ✍️ CREATE (POST)
+const crearDatoAxios = (nuevoPost) => {
+  // Pasas el objeto JS directamente, Axios lo convierte a JSON
+  axios.post(URL, nuevoPost)
+    .then(res => console.log("Creado:", res.data));
+};
+
+// 🔄 UPDATE (PUT)
+const actualizarDatoAxios = (id, postActualizado) => {
+  axios.put(`${URL}/${id}`, postActualizado)
+    .then(res => console.log("Actualizado:", res.data));
+};
+
+// 🗑️ DELETE (ELIMINAR)
+const eliminarDatoAxios = (id) => {
+  axios.delete(`${URL}/${id}`)
+    .then(() => console.log(`Post ${id} eliminado`));
+};

@@ -8,6 +8,36 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/pract-conjunto1" />
+            <option value="$PROJECT_DIR$/pract-conjunto2" />
+            <option value="$PROJECT_DIR$/pract-conjunto3" />
+            <option value="$PROJECT_DIR$/rest-client" />
+            <option value="$PROJECT_DIR$/rest-client-pract05" />
+            <option value="$PROJECT_DIR$/rest-client-pract06" />
+            <option value="$PROJECT_DIR$/rest-client-pract07" />
+            <option value="$PROJECT_DIR$/rest-client-pract08" />
+            <option value="$PROJECT_DIR$/rest-client-pract09" />
+            <option value="$PROJECT_DIR$/rest-client-pract11" />
+            <option value="$PROJECT_DIR$/rest-client-pract12" />
+            <option value="$PROJECT_DIR$/rest-post" />
+            <option value="$PROJECT_DIR$/rest-post-pract" />
+            <option value="$PROJECT_DIR$/rest-post-pract02" />
+            <option value="$PROJECT_DIR$/rest-post-pract03" />
+            <option value="$PROJECT_DIR$/rest-post-pract04" />
+            <option value="$PROJECT_DIR$/rest-post-pract05" />
+            <option value="$PROJECT_DIR$/rest-post-pract06" />
+            <option value="$PROJECT_DIR$/rest-post-pract07" />
+            <option value="$PROJECT_DIR$/rest-post-pract08" />
+            <option value="$PROJECT_DIR$/rest-post-pract09" />
+            <option value="$PROJECT_DIR$/rest-post-pract10" />
+            <option value="$PROJECT_DIR$/rest-post-pract11" />
+            <option value="$PROJECT_DIR$/rest-post-pract12" />
+            <option value="$PROJECT_DIR$/rest-post-pract13" />
+            <option value="$PROJECT_DIR$/rest-post-pract14" />
+            <option value="$PROJECT_DIR$/rest01" />
+            <option value="$PROJECT_DIR$/rest01pract" />
+            <option value="$PROJECT_DIR$/rest01pract2" />
+            <option value="$PROJECT_DIR$/rest01pract3" />
           </set>
         </option>
       </GradleProjectSettings>

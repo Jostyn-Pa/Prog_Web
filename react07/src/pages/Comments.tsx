@@ -7,7 +7,7 @@ import type { Comment } from "../models/Comment.ts";
 function Comments() {
 
     const [comments, setComments] = useState<Comment[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
     const { id } = useParams();
 
 

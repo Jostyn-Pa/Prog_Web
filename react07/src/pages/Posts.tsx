@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function Posts() {
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
 
     const fetchPosts = () => {
         setLoading(true);

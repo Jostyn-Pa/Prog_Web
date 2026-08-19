@@ -1,0 +1,71 @@
+// =========================================================
+// 🌟 CHEAT SHEET: LOS 4 VERBOS HTTP (CRUD) CON FETCH PURO
+// Regla de oro para POST y PUT: Siempre usar el "Combo de Oro":
+// 1. headers: { "Content-Type": "application/json" }
+// 2. body: JSON.stringify(datos)
+// 3. Dos .then() obligatorios (el primero desempaqueta el JSON)
+// =========================================================
+
+// ---------------------------------------------------------
+// 1. READ (Leer / Traer datos) -> GET
+// ---------------------------------------------------------
+fetch("https://api.ejemplo.com/recurso") // GET es el método por defecto, no hace falta escribirlo
+    .then(response => response.json())   // ⚠️ Paso 1: Convertir la respuesta de internet a JSON
+    .then(data => {
+        // ⚠️ Paso 2: Aquí ya tienes tus datos listos para usar
+        setEstado(data);
+    })
+    .catch(error => console.log(error));
+
+
+// ---------------------------------------------------------
+// 2. CREATE (Crear un registro nuevo) -> POST
+// Se apunta a la ruta principal (sin ID)
+// ---------------------------------------------------------
+fetch("https://api.ejemplo.com/recurso", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json" // Avisamos que enviamos un JSON
+    },
+    body: JSON.stringify(nuevoObjeto)      // Convertimos nuestro objeto JS a texto
+})
+    .then(response => response.json())
+    .then(data => {
+        console.log("Creado con éxito. El nuevo ID es:", data.id);
+    })
+    .catch(error => console.log(error));
+
+
+// ---------------------------------------------------------
+// 3. UPDATE (Actualizar/Editar un registro existente) -> PUT
+// Se apunta a la ruta ESPECÍFICA con el ID del elemento
+// ---------------------------------------------------------
+fetch(`https://api.ejemplo.com/recurso/${id}`, {
+    method: "PUT",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(objetoModificado) // Enviamos el objeto con los cambios
+})
+    .then(response => response.json())
+    .then(data => {
+        console.log("Actualizado con éxito:", data);
+    })
+    .catch(error => console.log(error));
+
+
+// ---------------------------------------------------------
+// 4. DELETE (Eliminar un registro) -> DELETE
+// Se apunta a la ruta ESPECÍFICA con el ID del elemento
+// ---------------------------------------------------------
+fetch(`https://api.ejemplo.com/recurso/${id}`, {
+    method: "DELETE" // No se necesita "headers" ni "body" porque no enviamos datos, solo la orden de borrar.
+})
+    .then(response => {
+        // A veces DELETE no devuelve un JSON, solo un estado de éxito
+        if (response.ok) {
+            console.log("Eliminado con éxito");
+            // Aquí harías: setEstado(estado.filter(item => item.id !== id))
+        }
+    })
+    .catch(error => console.log(error));

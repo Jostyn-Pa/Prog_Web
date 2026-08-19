@@ -8,7 +8,7 @@ import type {User} from "../models/User.ts";
 function Users() {
 
     const [users, setUsers] = useState<User[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [, setLoading] = useState(false);
 
     const fetchUsers = () => {
         setLoading(true);

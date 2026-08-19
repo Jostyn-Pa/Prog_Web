@@ -9,7 +9,7 @@ function PostDetalle() {
 
     const url = "https://jsonplaceholder.typicode.com/posts/";
     const {id} = useParams<{ id: string }>();
-    const [post, setPost] = useState<Post>({id: 0, title: "", body: ""});
+    const [post, setPost] = useState<Post>({userId: 0, id: 0, title: "", body: ""});
 
 
     useEffect(() => {

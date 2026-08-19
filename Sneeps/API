@@ -1,0 +1,202 @@
+import { Libro } from './models/Libro'; // Asegúrate de importar tu interfaz
+
+// La URL base de tu servidor Java
+const API_URL = "http://localhost:8080/api/libros";
+
+export const LibroService = {
+
+    // 1. READ ALL (Traer todos los registros) -> GET
+    findAll: async (): Promise<Libro[]> => {
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error("Error al cargar la lista");
+            return await response.json();
+        } catch (error) {
+            console.error("Error en findAll:", error);
+            return []; // Devolvemos un arreglo vacío si falla
+        }
+    },
+
+    // 2. READ ONE (Traer un solo registro por ID) -> GET
+    findById: async (id: number): Promise<Libro | null> => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`);
+            if (response.status === 404) return null; // Si Java devuelve 404 Not Found
+            if (!response.ok) throw new Error("Error al buscar el registro");
+            return await response.json();
+        } catch (error) {
+            console.error(`Error en findById (${id}):`, error);
+            return null;
+        }
+    },
+
+    // 3. CREATE (Crear un registro nuevo) -> POST
+    create: async (nuevoLibro: Libro): Promise<boolean> => {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // OBLIGATORIO para enviar JSON a Java
+                },
+                body: JSON.stringify(nuevoLibro)
+            });
+            return response.status === 201; // Retorna true si Java devolvió CREATED
+        } catch (error) {
+            console.error("Error en create:", error);
+            return false;
+        }
+    },
+
+    // 4. UPDATE (Actualizar un registro existente) -> PUT
+    update: async (id: number, libroEditado: Libro): Promise<boolean> => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json' // OBLIGATORIO para enviar JSON
+                },
+                body: JSON.stringify(libroEditado)
+            });
+            return response.ok; // Retorna true si Java devolvió 200 OK
+        } catch (error) {
+            console.error(`Error en update (${id}):`, error);
+            return false;
+        }
+    },
+
+    // 5. DELETE (Eliminar un registro) -> DELETE
+    delete: async (id: number): Promise<boolean> => {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE' // No necesita headers ni body porque solo envía la URL con el ID
+            });
+            return response.status === 204; // Retorna true si Java devolvió 204 NO CONTENT
+        } catch (error) {
+            console.error(`Error en delete (${id}):`, error);
+            return false;
+        }
+    }
+};
+
+
+
+import { useEffect, useState } from 'react';
+import { LibroService } from './LibroService';
+import { Libro } from './models/Libro';
+// IMPORTANTE: Aquí importas tus estilos separados
+import './MiPagina.css';
+
+export const MiPagina = () => {
+    const [libros, setLibros] = useState<Libro[]>([]);
+    const [nuevoTitulo, setNuevoTitulo] = useState('');
+
+    // --- LÓGICA ---
+    const cargarDatos = async () => {
+        const datos = await LibroService.findAll();
+        setLibros(datos);
+    };
+
+    useEffect(() => {
+        cargarDatos();
+    }, []);
+
+    const crearLibro = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const libroNuevo: Libro = { titulo: nuevoTitulo, genero: 'Ficción', author: { id: 1 } };
+        const exito = await LibroService.create(libroNuevo);
+        if (exito) {
+            setNuevoTitulo(''); // Limpiamos el input
+            cargarDatos();      // Recargamos la tabla
+        }
+    };
+
+    const borrarLibro = async (id: number) => {
+        const exito = await LibroService.delete(id);
+        if (exito) cargarDatos();
+    };
+
+    // --- VISUAL (HTML) ---
+    return (
+        <div className="contenedor-principal">
+            <h1>Gestión de Biblioteca</h1>
+
+            <form onSubmit={crearLibro} className="formulario">
+                <input
+                    type="text"
+                    value={nuevoTitulo}
+                    onChange={(e) => setNuevoTitulo(e.target.value)}
+                    placeholder="Título del libro..." required
+                />
+                <button type="submit">Guardar POST</button>
+            </form>
+
+            <ul className="lista-libros">
+                {libros.map(libro => (
+                    <li key={libro.id}>
+                        {libro.titulo} - {libro.genero}
+                        {/* El botón onClick SIEMPRE lleva una función flecha si recibe parámetros */}
+                        <button onClick={() => borrarLibro(libro.id!)}>Borrar DELETE</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+
+
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { ListaLibrosPage } from './pages/ListaLibrosPage';
+import { CrearLibroPage } from './pages/CrearLibroPage';
+
+export const App = () => {
+    return (
+        <BrowserRouter>
+            {/* Un menú de navegación que siempre se ve en todas las páginas */}
+            <nav style={{ padding: '10px', background: '#eee' }}>
+                {/* Usamos <Link> en lugar de <a> para no recargar la página */}
+                <Link to="/" style={{ marginRight: '10px' }}>Ver Lista (GET)</Link>
+                <Link to="/nuevo">Crear Nuevo (POST)</Link>
+            </nav>
+
+            {/* El espacio dinámico donde cambian los componentes */}
+            <div className="contenido">
+                <Routes>
+                    {/* Cuando la URL sea "/" dibuja la Lista */}
+                    <Route path="/" element={<ListaLibrosPage />} />
+
+                    {/* Cuando la URL sea "/nuevo" dibuja el Formulario */}
+                    <Route path="/nuevo" element={<CrearLibroPage />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
+};
+
+
+💡 Un "Truco Pro" para tu página POST (CrearLibroPage.tsx)
+Cuando el usuario llene el formulario y se guarde el libro correctamente, vas a querer que el navegador lo devuelva automáticamente a la tabla para que vea su libro nuevo. Así se hace:
+
+TypeScript
+import { useNavigate } from 'react-router-dom';
+import { LibroService } from '../LibroService';
+import { useState } from 'react';
+
+export const CrearLibroPage = () => {
+    const navigate = useNavigate(); // <-- Herramienta de React Router
+    const [titulo, setTitulo] = useState('');
+
+    const guardar = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const exito = await LibroService.create({ titulo, genero: 'Ficción', author: { id: 1 } });
+
+        if (exito) {
+            alert("Guardado!");
+            navigate("/"); // <-- ¡Magia! Lo envía de regreso a la tabla automáticamente
+        }
+    };
+
+    return (
+        <form onSubmit={guardar}> {/* ... tus inputs ... */} </form>
+    );
+}
